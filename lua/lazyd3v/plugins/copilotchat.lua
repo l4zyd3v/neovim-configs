@@ -42,7 +42,7 @@ return {
       -- },
       {
         "<leader>ccw",
-        ":CopilotChat <Space>",
+        ":CopilotChat Teach the following in a learning matter: <Space>",
         desc = "CopilotChat - Chat with Copilot",
       },
       -- {
