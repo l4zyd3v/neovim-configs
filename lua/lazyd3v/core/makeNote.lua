@@ -1,3 +1,7 @@
+local function testFunc()
+  print("Hello from makeNote.lua")
+end
+
 local function makeNote()
   vim.ui.input({ prompt = "Note: " }, function(note)
     if not note then
@@ -11,7 +15,9 @@ local function makeNote()
         return
       end
 
-      local path_to_save_file = vim.fn.expand("~/dev/") .. "/"
+      local dirName = "/vim-notes"
+
+      local path_to_save_file = vim.fn.expand("~/dev/") .. dirName
 
       if vim.fn.isdirectory(path_to_save_file) == 0 then
         vim.fn.mkdir(path_to_save_file, "p")
@@ -35,4 +41,5 @@ end
 
 return {
   makeNote = makeNote,
+  testFunc = testFunc,
 }
