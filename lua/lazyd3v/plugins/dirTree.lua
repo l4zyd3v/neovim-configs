@@ -66,45 +66,37 @@ return {
     -- set keymaps
     local keymap = vim.keymap -- for conciseness
 
-    -- _G.toggleNvimTreeAndResize = function(command)
-    --   -- treeOpen is declared and initialized in the global scope and is set to false
-    --   if not _G.treeOpen then
-    --     vim.cmd(command)
-    --     _G.treeOpen = true
-    --     vim.cmd("vertical resize 50")
-    --     -- vim.cmd("horizontal resize 40")
-    --
-    --     local max_height = vim.o.lines
-    --     local linesFor80Percent = math.floor(max_height * 0.8)
-    --
-    --     vim.cmd("resize " .. linesFor80Percent)
-    --   else
-    --     vim.cmd("NvimTreeClose")
-    --     _G.treeOpen = false
-    --   end
-    -- end
+    _G.OpenNvimTreeAndResize = function(command)
+      vim.cmd(command)
+      vim.cmd("vertical resize 50")
+
+      local max_height = vim.o.lines
+      local linesFor80Percent = math.floor(max_height * 0.8)
+
+      vim.cmd("resize " .. linesFor80Percent)
+    end
 
     keymap.set(
       "n",
       "<leader>ee",
-      -- "<cmd>lua _G.toggleNvimTreeAndResize('NvimTreeOpen')<CR>",
-      "<cmd>NvimTreeOpen<CR>",
+      "<cmd>lua _G.OpenNvimTreeAndResize('NvimTreeOpen')<CR>",
+      -- "<cmd>NvimTreeOpen<CR>",
       { desc = "Toggle file explorer" }
     ) -- toggle file explorer
 
     keymap.set(
       "n",
       "<leader>ef",
-      -- "<cmd>lua _G.toggleNvimTreeAndResize('NvimTreeFindFileToggle!')<CR>",
-      "<cmd>NvimTreeFindFileToggle!<CR>",
+      "<cmd>lua _G.OpenNvimTreeAndResize('NvimTreeFindFileToggle!')<CR>",
+      -- "<cmd>NvimTreeFindFileToggle!<CR>",
       { desc = "Toggle file explorer on current file" }
     ) -- toggle file explorer on current file
 
     keymap.set(
       "n",
       "<leader>eg",
-      -- "<cmd>lua _G.toggleNvimTreeAndResize('NvimTreeFindFile!')<CR>",
-      "<cmd>NvimTreeFindFile!<CR>",
+      "<cmd>lua _G.OpenNvimTreeAndResize('NvimTreeFindFile!')<CR>",
+      -- "<cmd>NvimTreeFindFile!<CR>",
       { desc = "Toggle file explorer on current file" }
     ) -- toggle file explorer on current file
 
@@ -113,8 +105,8 @@ return {
     keymap.set(
       "n",
       "<leader>er",
-      -- "<cmd>lua _G.toggleNvimTreeAndResize('NvimTreeRefresh')<CR>",
-      "<cmd>NvimTreeRefresh<CR>",
+      "<cmd>lua _G.OpenNvimTreeAndResize('NvimTreeRefresh')<CR>",
+      -- "<cmd>NvimTreeRefresh<CR>",
       { desc = "Refresh file explorer" }
     ) -- refresh file explorer
   end,
