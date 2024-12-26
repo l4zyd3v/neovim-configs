@@ -1,17 +1,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- lua/lazyd3v/plugins/init.lua
-local makeNote = require("lazyd3v.core.makeNote")
-
--- Define a command to call the makeNote function
-vim.api.nvim_create_user_command("MakeNote", makeNote.makeNote, {})
-
--- Map a key combination to the MakeNote command
-vim.api.nvim_set_keymap("n", "<leader>mn", ":MakeNote<CR>", { noremap = true, silent = true })
-
 local keymap = vim.keymap
 -- window management
+
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
 keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
