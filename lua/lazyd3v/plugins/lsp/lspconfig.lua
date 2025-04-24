@@ -72,6 +72,18 @@ return {
       },
     })
 
+    -- astro
+    lspconfig["astro"].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "astro" },
+      init_options = {
+        typescript = {
+          tsdk = "/home/z/.nvm/versions/node/v20.10.0/lib/node_modules/typescript/lib",
+        },
+      },
+    })
+
     -- configure html server
     lspconfig["html"].setup({
       capabilities = capabilities,

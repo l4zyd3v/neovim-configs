@@ -20,7 +20,7 @@ keymap.set(
   { desc = "Insert user story template" }
 )
 
-vim.api.nvim_set_keymap("n", "<leader>33", ":nohlsearch<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>½½", ":nohlsearch<CR>", { noremap = true, silent = true })
 
 keymap.set("n", "<C-s>", "<cmd>w<CR>", { desc = "Save file" }) -- save file
 keymap.set("i", "<C-s>", "<cmd>w<CR>", { desc = "Save file" }) -- save file

@@ -1,7 +1,3 @@
-local function testFunc()
-  print("Hello from makeNote.lua")
-end
-
 local function makeNote()
   vim.ui.input({ prompt = "Note: " }, function(note)
     if not note then
@@ -41,5 +37,4 @@ end
 
 return {
   makeNote = makeNote,
-  testFunc = testFunc,
 }

@@ -21,6 +21,7 @@ return {
         graphql = { "prettierd", "prettier" },
         lua = { "stylua" },
         python = { "isort", "black" },
+        astro = { "prettierd", "prettier" },
       },
       format_on_save = {
         lsp_fallback = true,

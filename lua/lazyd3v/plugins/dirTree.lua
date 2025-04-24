@@ -1,113 +1,30 @@
 return {
-  "nvim-tree/nvim-tree.lua",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  "nvim-neo-tree/neo-tree.nvim",
+  branch = "v3.x",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+    "MunifTanjim/nui.nvim",
+    -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
+  },
   config = function()
-    local nvimtree = require("nvim-tree")
-
-    vim.g.loaded_netrw = 1
-    vim.g.loaded_netrwPlugin = 1
-
-    -- vim.cmd([[ autocmd VimEnter * :Explore ]])
-
-    vim.cmd([[ highlight NvimTreeFolderArrowClosed guifg=#3FC5FF ]])
-    vim.cmd([[ highlight NvimTreeFolderArrowOpen guifg=#3FC5FF ]])
-
-    -- configure nvim-tree
-    nvimtree.setup({
-      view = {
-        -- preserve_window_proportions = true,
-        float = {
-          enable = true,
-        },
-        width = 80,
-        relativenumber = true,
+    require("neo-tree").setup({
+      window = {
+        -- position = "float",
+        width = 35,
       },
-      -- change folder arrow icons
-      renderer = {
-        indent_markers = {
-          enable = false,
+      filesystem = {
+        follow_current_file = {
+          enabled = true,
         },
-        icons = {
-          glyphs = {
-            folder = {
-              arrow_closed = "", -- arrow when folder is closed
-              arrow_open = "", -- arrow when folder is open
-            },
-          },
+        filtered_items = {
+          visible = true, -- This will make all hidden files visible
         },
-      },
-      -- disable window_picker for
-      -- explorer to work well with
-      -- window splits
-      -- actions = {
-      --   open_file = {
-      --     window_picker = {
-      --       enable = false,
-      --     },
-      --   },
-      -- },
-      git = {
-        ignore = false,
-      },
-      update_focused_file = {
-        enable = true,
       },
     })
-
-    -- nvimtree.setup({
-    --   view = {
-    --     float = {
-    --       enable = true,
-    --     },
-    --     relativenumber = true,
-    --   },
-    -- })
-
-    -- set keymaps
-    local keymap = vim.keymap -- for conciseness
-
-    _G.OpenNvimTreeAndResize = function(command)
-      vim.cmd(command)
-      vim.cmd("vertical resize 50")
-
-      local max_height = vim.o.lines
-      local linesFor80Percent = math.floor(max_height * 0.8)
-
-      vim.cmd("resize " .. linesFor80Percent)
-    end
-
-    keymap.set(
-      "n",
-      "<leader>ee",
-      "<cmd>lua _G.OpenNvimTreeAndResize('NvimTreeOpen')<CR>",
-      -- "<cmd>NvimTreeOpen<CR>",
-      { desc = "Toggle file explorer" }
-    ) -- toggle file explorer
-
-    keymap.set(
-      "n",
-      "<leader>ef",
-      "<cmd>lua _G.OpenNvimTreeAndResize('NvimTreeFindFileToggle!')<CR>",
-      -- "<cmd>NvimTreeFindFileToggle!<CR>",
-      { desc = "Toggle file explorer on current file" }
-    ) -- toggle file explorer on current file
-
-    keymap.set(
-      "n",
-      "<leader>eg",
-      "<cmd>lua _G.OpenNvimTreeAndResize('NvimTreeFindFile!')<CR>",
-      -- "<cmd>NvimTreeFindFile!<CR>",
-      { desc = "Toggle file explorer on current file" }
-    ) -- toggle file explorer on current file
-
-    keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" }) -- collapse file explorer
-
-    keymap.set(
-      "n",
-      "<leader>er",
-      "<cmd>lua _G.OpenNvimTreeAndResize('NvimTreeRefresh')<CR>",
-      -- "<cmd>NvimTreeRefresh<CR>",
-      { desc = "Refresh file explorer" }
-    ) -- refresh file explorer
   end,
+  keys = {
+    { "<leader>ee", "<cmd>Neotree toggle<cr>", desc = "Toggle NeoTree" },
+    { "<leader>eg", "<cmd>Neotree reveal<cr>", desc = "Reveal current file in NeoTree" },
+  },
 }
