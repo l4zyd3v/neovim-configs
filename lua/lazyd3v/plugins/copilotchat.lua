@@ -42,6 +42,11 @@ return {
       -- },
       {
         "<leader>ccw",
+        ":CopilotChat <Space>",
+        desc = "CopilotChat - Chat with Copilot",
+      },
+      {
+        "<leader>ccwl",
         ":CopilotChat Teach the following in a learning matter: <Space>",
         desc = "CopilotChat - Chat with Copilot",
       },

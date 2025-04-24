@@ -37,6 +37,7 @@ return {
         "emmet_ls",
         "prismals",
         "solidity_ls_nomicfoundation",
+        "astro",
         -- "pyright",
       },
       -- auto-install configured servers (with lspconfig)
