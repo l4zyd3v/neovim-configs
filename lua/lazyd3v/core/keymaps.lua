@@ -4,12 +4,14 @@ vim.g.maplocalleader = " "
 local keymap = vim.keymap
 -- window management
 
+keymap.set("n", "<leader>tm", ":terminal<CR>", { desc = "Open terminal" }) -- open terminal
+
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
 keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
 keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
 
-keymap.set("n", "<leader>sc", "<cmd>vertical resize 50<CR>", { desc = "a narrow window" })
+keymap.set("n", "<leader>sc", "<cmd>vertical resize 35<CR>", { desc = "a narrow window" })
 
 -- keymap for markdown user stoies boilerplate
 
@@ -54,3 +56,4 @@ vim.api.nvim_set_keymap("t", "<leader>+", "<C-\\><C-n>", { noremap = true, silen
 vim.api.nvim_set_keymap("n", "J", "", { noremap = true, silent = true })
 
 keymap.set("n", "<leader>z", ":ZenMode<CR>", { desc = "Toggle ZenMode" }) -- ZenMode
+
