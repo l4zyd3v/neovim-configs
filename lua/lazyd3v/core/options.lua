@@ -26,3 +26,7 @@ vim.opt.splitright = true
 -- This is for the sake of expo, otherwise it doesn't update o save
 vim.opt.backupcopy = "yes"
 
+-- Search all subdirectories recursively
+vim.opt.path:append("**")
+
+vim.opt.autochdir = false -- never automatically change directory
