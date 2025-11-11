@@ -1,4 +1,5 @@
 return {
+
   "neovim/nvim-lspconfig",
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
@@ -6,7 +7,7 @@ return {
   },
   config = function()
     -- import lspconfig plugin
-    local lspconfig = require("lspconfig")
+    -- local lspconfig = require("lspconfig")
 
     -- import cmp-nvim-lsp plugin
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -73,7 +74,7 @@ return {
     })
 
     -- astro
-    lspconfig["astro"].setup({
+    vim.lsp.config("astro", {
       capabilities = capabilities,
       on_attach = on_attach,
       filetypes = { "astro" },
@@ -85,25 +86,25 @@ return {
     })
 
     -- configure html server
-    lspconfig["html"].setup({
+    vim.lsp.config("html", {
       capabilities = capabilities,
       on_attach = on_attach,
     })
 
     -- configure typescript server with plugin
-    lspconfig["ts_ls"].setup({
+    vim.lsp.config("ts_ls", {
       capabilities = capabilities,
       on_attach = on_attach,
     })
 
     -- configure css server
-    lspconfig["cssls"].setup({
+    vim.lsp.config("cssls", {
       capabilities = capabilities,
       on_attach = on_attach,
     })
 
     -- configure tailwindcss server
-    lspconfig["tailwindcss"].setup({
+    vim.lsp.config("tailwindcss", {
       capabilities = capabilities,
       on_attach = on_attach,
     })
@@ -139,7 +140,7 @@ return {
     -- })
 
     -- configure emmet language server
-    lspconfig["emmet_ls"].setup({
+    vim.lsp.config("emmet_ls", {
       capabilities = capabilities,
       on_attach = on_attach,
       filetypes = {
@@ -157,17 +158,17 @@ return {
     })
 
     -- configure python server
-    lspconfig["pyright"].setup({
+    vim.lsp.config("pyright", {
       capabilities = capabilities,
       on_attach = on_attach,
     })
 
     -- configure lua server (with special settings)
-    lspconfig["lua_ls"].setup({
+    vim.lsp.config("lua_ls", {
       capabilities = capabilities,
       on_attach = on_attach,
       settings = { -- custom settings for lua
-        Lua = {
+        lua = {
           -- make the language server recognize "vim" global
           diagnostics = {
             globals = { "vim" },
@@ -175,7 +176,7 @@ return {
           workspace = {
             -- make language server aware of runtime files
             library = {
-              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+              [vim.fn.expand("$vimruntime/lua")] = true,
               [vim.fn.stdpath("config") .. "/lua"] = true,
             },
           },
@@ -183,7 +184,7 @@ return {
       },
     })
     -- configure solidity server
-    lspconfig["solidity_ls_nomicfoundation"].setup({
+    vim.lsp.config("solidity_ls_nomicfoundation", {
       capabilities = capabilities,
       on_attach = on_attach,
     })

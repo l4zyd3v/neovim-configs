@@ -94,6 +94,11 @@ return {
         "<cmd>CopilotChatReset<cr>", -- Reset chat history and clear buffer.
         desc = "CopilotChat - Reset chat history and clear buffer",
       },
+      {
+        "<leader>cco",
+        "<cmd>CopilotChatToggle<cr>",
+        desc = "CopilotChat - Toggle Chat window",
+      },
     },
   },
 }
