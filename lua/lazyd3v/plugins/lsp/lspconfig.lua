@@ -62,6 +62,19 @@ return {
     -- used to enable autocompletion (assign to every lsp server config)
     local capabilities = cmp_nvim_lsp.default_capabilities()
 
+    -- Source - https://stackoverflow.com/a/79656109
+    -- Posted by Jo Totland
+    -- Retrieved 2026-02-14, License - CC BY-SA 4.0
+    vim.lsp.config("lua_ls", {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
+          },
+        },
+      },
+    })
+
     vim.diagnostic.config({
       signs = {
         text = {
