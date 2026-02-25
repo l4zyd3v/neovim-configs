@@ -2,40 +2,74 @@ return {
   "nickjvandyke/opencode.nvim",
   dependencies = {
     -- Recommended for `ask()` and `select()`.
-    -- Required for `snacks` provider.
     ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
     { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
   },
 
   config = function()
-    ---@type opencode.Opts
-    vim.g.opencode_opts = {
-      provider = {
-        enabled = "snacks",
-        snacks = {
-          win = {
-            position = "float",
-            width = 0.85,
-            height = 0.85,
-            border = "rounded",
-            enter = true,
-          },
-        },
+    local opencode_cmd = "opencode --port"
+    local did_first_opencode_focus_fix = false
+    local first_focus_auid = nil
+    ---@type snacks.terminal.Opts
+    local snacks_terminal_opts = {
+      start_insert = true,
+      auto_insert = true,
+      win = {
+        position = "float",
+        width = 0.85,
+        height = 0.85,
+        border = "rounded",
+        enter = true,
+        on_win = function(win)
+          require("opencode.terminal").setup(win.win)
+
+          -- First-open only: wait for the prompt to actually render, then snap focus.
+          if not did_first_opencode_focus_fix and first_focus_auid == nil then
+            first_focus_auid = vim.api.nvim_create_autocmd("TermRequest", {
+              buffer = win.buf,
+              callback = function(ev)
+                local cursor = ev.data and ev.data.cursor
+                if not (cursor and cursor[1] and cursor[1] > 1) then
+                  return
+                end
+
+                if first_focus_auid ~= nil then
+                  vim.api.nvim_del_autocmd(first_focus_auid)
+                  first_focus_auid = nil
+                end
+
+                vim.defer_fn(function()
+                  if vim.api.nvim_win_is_valid(win.win) then
+                    vim.api.nvim_set_current_win(win.win)
+                    vim.cmd("startinsert")
+                    did_first_opencode_focus_fix = true
+                  end
+                end, 30)
+              end,
+            })
+          end
+
+          vim.keymap.set({ "t", "n" }, "<C-c>", function()
+            require("opencode").toggle()
+          end, { buffer = win.buf, desc = "Hide opencode window" })
+        end,
       },
     }
 
-    -- experimental - from opencode
-    local opencode_group = vim.api.nvim_create_augroup("lazyd3v_opencode", { clear = true })
-    vim.api.nvim_create_autocmd("FileType", {
-      group = opencode_group,
-      pattern = "opencode_terminal",
-      callback = function(event)
-        vim.keymap.set("t", "<C-c>", function()
-          require("opencode").toggle()
-        end, { buffer = event.buf, desc = "Hide opencode window" })
-      end,
-    })
-    -- experimental - from opencode ^^^^^^
+    ---@type opencode.Opts
+    vim.g.opencode_opts = {
+      server = {
+        start = function()
+          require("snacks.terminal").open(opencode_cmd, snacks_terminal_opts)
+        end,
+        stop = function()
+          require("snacks.terminal").get(opencode_cmd, snacks_terminal_opts):close()
+        end,
+        toggle = function()
+          require("snacks.terminal").toggle(opencode_cmd, snacks_terminal_opts)
+        end,
+      },
+    }
 
     -- Required for `opts.events.reload`.
     vim.o.autoread = true
