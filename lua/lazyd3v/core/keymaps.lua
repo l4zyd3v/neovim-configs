@@ -2,9 +2,14 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 local keymap = vim.keymap
+local floating_terminal = require("lazyd3v.core.floating_terminal")
 -- window management
 
 keymap.set("n", "<leader>tm", ":terminal<CR>", { desc = "Open terminal" }) -- open terminal
+keymap.set("n", "<leader>kk", floating_terminal.toggle, { desc = "Toggle floating terminal" })
+keymap.set("t", "<leader>kk", [[<C-\><C-n><cmd>lua require("lazyd3v.core.floating_terminal").toggle()<CR>]], {
+  desc = "Toggle floating terminal",
+})
 
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
 keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
@@ -56,4 +61,3 @@ vim.api.nvim_set_keymap("t", "<leader>+", "<C-\\><C-n>", { noremap = true, silen
 vim.api.nvim_set_keymap("n", "J", "", { noremap = true, silent = true })
 
 keymap.set("n", "<leader>z", ":ZenMode<CR>", { desc = "Toggle ZenMode" }) -- ZenMode
-
