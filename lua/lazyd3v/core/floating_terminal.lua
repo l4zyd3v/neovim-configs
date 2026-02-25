@@ -51,7 +51,7 @@ function M.open()
   vim.wo[state.win].number = false
   vim.wo[state.win].relativenumber = false
   vim.wo[state.win].signcolumn = "no"
-  vim.wo[state.win].winblend = 15
+  vim.wo[state.win].winblend = 5
 
   vim.cmd("startinsert")
 end
