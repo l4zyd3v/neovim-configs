@@ -18,7 +18,7 @@ return {
       win = {
         position = "float",
         width = 0.85,
-        height = 0.85,
+        height = 0.98,
         border = "rounded",
         enter = true,
         on_win = function(win)
@@ -73,10 +73,12 @@ return {
       if position == "float" then
         terminal.opts.width = snacks_terminal_opts.win.width
         terminal.opts.height = snacks_terminal_opts.win.height
+        terminal.opts.row = snacks_terminal_opts.win.row
         terminal.opts.border = snacks_terminal_opts.win.border
       else
         terminal.opts.width = opencode_right_width
         terminal.opts.height = nil
+        terminal.opts.row = nil
         terminal.opts.border = nil
       end
     end
