@@ -37,13 +37,21 @@ keymap.set("n", "<M-w>", "<cmd>TmuxNavigatePrevious<CR>", { desc = "Navigate to 
 keymap.set("n", "<M-l>", "<cmd>TmuxNavigateRight<CR>", { desc = "Navigate to right" }) -- navigate to right
 keymap.set("n", "<M-h>", "<cmd>TmuxNavigateLeft<CR>", { desc = "Navigate to left" }) -- navigate to left
 
-keymap.set("n", "<M-j>", "<C-e>", { desc = "scroll down" }) -- scroll down
+local function smooth_scroll(lines, duration, fallback)
+  return function()
+    local ok, neoscroll = pcall(require, "neoscroll")
+    if ok then
+      neoscroll.scroll(lines, false, duration)
+      return
+    end
+    vim.cmd("normal! " .. fallback)
+  end
+end
 
-keymap.set("n", "<M-k>", "<C-y>", { desc = "Scroll down" }) -- scroll down
-
-keymap.set("n", "<M-J>", "8<C-e>", { desc = "scroll down" }) -- scroll down more
-
-keymap.set("n", "<M-K>", "8<C-y>", { desc = "Scroll down" }) -- scroll down more
+keymap.set("n", "<M-j>", smooth_scroll(1, 80, "<C-e>"), { desc = "Smooth scroll down" })
+keymap.set("n", "<M-k>", smooth_scroll(-1, 80, "<C-y>"), { desc = "Smooth scroll up" })
+keymap.set("n", "<M-J>", smooth_scroll(6, 160, "6<C-e>"), { desc = "Smooth scroll down more" })
+keymap.set("n", "<M-K>", smooth_scroll(-6, 160, "6<C-y>"), { desc = "Smooth scroll up more" })
 
 keymap.set("i", "<M-j>", "<Down>", { desc = "Arrow down" }) -- Arrow Down
 keymap.set("i", "<M-k>", "<Up>", { desc = "Arrow up" }) -- Arrow Up
