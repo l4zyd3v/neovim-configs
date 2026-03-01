@@ -30,3 +30,4 @@ vim.opt.backupcopy = "yes"
 vim.opt.path:append("**")
 
 vim.opt.autochdir = false -- never automatically change directory
+vim.opt.smoothscroll = true
