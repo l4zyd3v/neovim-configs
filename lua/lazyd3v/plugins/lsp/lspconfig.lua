@@ -77,7 +77,7 @@ return {
     vim.diagnostic.config({
       virtual_text = true,
       underline = true,
-      update_in_insert = false,
+      update_in_insert = true,
       signs = {
         text = {
           [vim.diagnostic.severity.ERROR] = " ",
