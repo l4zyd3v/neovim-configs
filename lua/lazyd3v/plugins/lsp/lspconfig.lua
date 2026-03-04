@@ -1,5 +1,4 @@
 return {
-
   "neovim/nvim-lspconfig",
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
@@ -76,6 +75,9 @@ return {
     })
 
     vim.diagnostic.config({
+      virtual_text = true,
+      underline = true,
+      update_in_insert = true,
       signs = {
         text = {
           [vim.diagnostic.severity.ERROR] = " ",
@@ -84,6 +86,14 @@ return {
           [vim.diagnostic.severity.INFO] = " ",
         },
       },
+    })
+
+    local diagnostic_float_group = vim.api.nvim_create_augroup("diagnostic_float", { clear = true })
+    vim.api.nvim_create_autocmd("CursorHold", {
+      group = diagnostic_float_group,
+      callback = function()
+        vim.diagnostic.open_float(nil, { focusable = false, source = "if_many" })
+      end,
     })
 
     -- astro
