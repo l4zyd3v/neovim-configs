@@ -69,3 +69,5 @@ vim.api.nvim_set_keymap("t", "<leader>+", "<C-\\><C-n>", { noremap = true, silen
 vim.api.nvim_set_keymap("n", "J", "", { noremap = true, silent = true })
 
 keymap.set("n", "<leader>z", ":ZenMode<CR>", { desc = "Toggle ZenMode" }) -- ZenMode
+
+keymap.set("n", "gd", vim.lsp.buf.definition)
