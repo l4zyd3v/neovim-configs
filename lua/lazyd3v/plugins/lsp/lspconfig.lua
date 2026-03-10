@@ -118,6 +118,12 @@ return {
     vim.lsp.config("ts_ls", {
       capabilities = capabilities,
       on_attach = on_attach,
+      init_options = {
+        preferences = {
+          includeCompletionsForModuleExports = true,
+          includeCompletionsWithInsertText = true,
+        },
+      },
     })
 
     -- configure css server
@@ -211,5 +217,15 @@ return {
       capabilities = capabilities,
       on_attach = on_attach,
     })
+
+    vim.lsp.enable("astro")
+    vim.lsp.enable("html")
+    vim.lsp.enable("ts_ls")
+    vim.lsp.enable("cssls")
+    vim.lsp.enable("tailwindcss")
+    vim.lsp.enable("emmet_ls")
+    vim.lsp.enable("pyright")
+    vim.lsp.enable("lua_ls")
+    vim.lsp.enable("solidity_ls_nomicfoundation")
   end,
 }
