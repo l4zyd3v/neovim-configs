@@ -1,6 +1,6 @@
 return {
   "folke/zen-mode.nvim",
   window = {
-    width = 800,
+    width = 500,
   },
 }

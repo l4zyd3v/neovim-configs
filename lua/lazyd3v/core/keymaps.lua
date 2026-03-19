@@ -41,7 +41,8 @@ local function smooth_scroll(lines, duration, fallback)
   return function()
     local ok, neoscroll = pcall(require, "neoscroll")
     if ok then
-      neoscroll.scroll(lines, false, duration)
+      -- neoscroll.scroll(lines, false, duration)
+      neoscroll.scroll(lines, { move_cursor = false, duration = duration })
       return
     end
     vim.cmd("normal! " .. fallback)
