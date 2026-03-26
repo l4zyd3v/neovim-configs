@@ -119,7 +119,7 @@ keymap.set("n", "<leader>z", ":ZenMode<CR>", { desc = "Toggle ZenMode" }) -- Zen
 
 keymap.set(
   "n",
-  "gd",
+  "<leader>fd",
   telescope_or_lsp("lsp_definitions", vim.lsp.buf.definition, function()
     vim.cmd("normal! gd")
   end, "definitions"),
@@ -128,7 +128,7 @@ keymap.set(
 keymap.set("n", "gD", lsp_or_fallback(vim.lsp.buf.declaration, nil, "declarations"), {
   desc = "Go to declaration",
 })
-keymap.set("n", "gr", telescope_or_lsp("lsp_references", vim.lsp.buf.references, nil, "references"), {
+keymap.set("n", "<leader>g", telescope_or_lsp("lsp_references", vim.lsp.buf.references, nil, "references"), {
   desc = "Show references",
 })
 keymap.set("n", "gR", telescope_or_lsp("lsp_references", vim.lsp.buf.references, nil, "references"), {
