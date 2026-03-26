@@ -3,6 +3,52 @@ vim.g.maplocalleader = " "
 
 local keymap = vim.keymap
 local floating_terminal = require("lazyd3v.core.floating_terminal")
+
+local function has_buffer_lsp(bufnr)
+  return #vim.lsp.get_clients({ bufnr = bufnr or 0 }) > 0
+end
+
+local function notify_missing_lsp(action)
+  vim.notify("No LSP attached for " .. action, vim.log.levels.INFO)
+end
+
+local function telescope_or_lsp(picker, lsp_fallback, missing_lsp_fallback, missing_message)
+  return function()
+    if not has_buffer_lsp(0) then
+      if missing_lsp_fallback then
+        missing_lsp_fallback()
+        return
+      end
+
+      notify_missing_lsp(missing_message)
+      return
+    end
+
+    local ok, telescope = pcall(require, "telescope.builtin")
+    if ok and telescope[picker] then
+      telescope[picker]()
+      return
+    end
+
+    lsp_fallback()
+  end
+end
+
+local function lsp_or_fallback(lsp_action, missing_lsp_fallback, missing_message)
+  return function()
+    if has_buffer_lsp(0) then
+      lsp_action()
+      return
+    end
+
+    if missing_lsp_fallback then
+      missing_lsp_fallback()
+      return
+    end
+
+    notify_missing_lsp(missing_message)
+  end
+end
 -- window management
 
 keymap.set("n", "<leader>tm", ":terminal<CR>", { desc = "Open terminal" }) -- open terminal
@@ -71,4 +117,29 @@ vim.api.nvim_set_keymap("n", "J", "", { noremap = true, silent = true })
 
 keymap.set("n", "<leader>z", ":ZenMode<CR>", { desc = "Toggle ZenMode" }) -- ZenMode
 
-keymap.set("n", "gd", vim.lsp.buf.definition)
+keymap.set(
+  "n",
+  "gd",
+  telescope_or_lsp("lsp_definitions", vim.lsp.buf.definition, function()
+    vim.cmd("normal! gd")
+  end, "definitions"),
+  { desc = "Go to definition" }
+)
+keymap.set("n", "gD", lsp_or_fallback(vim.lsp.buf.declaration, nil, "declarations"), {
+  desc = "Go to declaration",
+})
+keymap.set("n", "gr", telescope_or_lsp("lsp_references", vim.lsp.buf.references, nil, "references"), {
+  desc = "Show references",
+})
+keymap.set("n", "gR", telescope_or_lsp("lsp_references", vim.lsp.buf.references, nil, "references"), {
+  desc = "Show references",
+})
+keymap.set("n", "gi", telescope_or_lsp("lsp_implementations", vim.lsp.buf.implementation, nil, "implementations"), {
+  desc = "Show implementations",
+})
+keymap.set("n", "gt", telescope_or_lsp("lsp_type_definitions", vim.lsp.buf.type_definition, nil, "type definitions"), {
+  desc = "Show type definitions",
+})
+keymap.set("n", "K", lsp_or_fallback(vim.lsp.buf.hover, nil, "hover information"), {
+  desc = "Show symbol info",
+})
