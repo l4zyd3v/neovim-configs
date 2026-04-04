@@ -1,23 +1,23 @@
 return {
-  "folke/which-key.nvim",
-  event = "VeryLazy",
-  init = function()
-    vim.o.timeout = true
-    vim.o.timeoutlen = 1500
-  end,
-  opts = {},
-  config = function(_, opts)
-    local wk = require("which-key")
-
-    wk.setup(opts)
-    wk.add({
-      { "g", group = "goto" },
-      { "gd", desc = "Go to definition" },
-      { "gD", desc = "Go to declaration" },
-      { "gr", desc = "Show references" },
-      { "gR", desc = "Show references" },
-      { "gi", desc = "Show implementations" },
-      { "gt", desc = "Show type definitions" },
-    })
-  end,
+  -- "folke/which-key.nvim",
+  -- event = "VeryLazy",
+  -- init = function()
+  --   vim.o.timeout = true
+  --   vim.o.timeoutlen = 1500
+  -- end,
+  -- opts = {},
+  -- config = function(_, opts)
+  --   local wk = require("which-key")
+  --
+  --   wk.setup(opts)
+  --   wk.add({
+  --     { "g", group = "goto" },
+  --     { "gd", desc = "Go to definition" },
+  --     { "gD", desc = "Go to declaration" },
+  --     { "gr", desc = "Show references" },
+  --     { "gR", desc = "Show references" },
+  --     { "gi", desc = "Show implementations" },
+  --     { "gt", desc = "Show type definitions" },
+  --   })
+  -- end,
 }
