@@ -1,6 +1,19 @@
 return {
   "folke/zen-mode.nvim",
-  window = {
-    width = 500,
+  opts = {
+    window = {
+      width = 0.6,
+      options = {
+        relativenumber = true,
+      },
+    },
+    plugins = {
+      options = {
+        enabled = true,
+        laststatus = 3,
+        ruler = true,
+        showcmd = true,
+      },
+    },
   },
 }

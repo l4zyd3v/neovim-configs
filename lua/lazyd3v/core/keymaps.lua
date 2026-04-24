@@ -62,7 +62,7 @@ keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) 
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
 keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
 
-keymap.set("n", "<leader>sc", "<cmd>vertical resize 35<CR>", { desc = "a narrow window" })
+keymap.set("n", "<leader>sc", "<cmd>vertical resize 48<CR>", { desc = "a narrow window" })
 
 -- keymap for markdown user stoies boilerplate
 
