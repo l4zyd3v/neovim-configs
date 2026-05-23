@@ -52,8 +52,8 @@ end
 -- window management
 
 keymap.set("n", "<leader>tm", ":terminal<CR>", { desc = "Open terminal" }) -- open terminal
-keymap.set("n", "<leader>kk", floating_terminal.toggle, { desc = "Toggle floating terminal" })
-keymap.set("t", "<leader>kk", [[<C-\><C-n><cmd>lua require("lazyd3v.core.floating_terminal").toggle()<CR>]], {
+keymap.set("n", "<leader>k", floating_terminal.toggle, { desc = "Toggle floating terminal" })
+keymap.set("t", "<leader>k", [[<C-\><C-n><cmd>lua require("lazyd3v.core.floating_terminal").toggle()<CR>]], {
   desc = "Toggle floating terminal",
 })
 
