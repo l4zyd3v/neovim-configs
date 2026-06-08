@@ -1,5 +1,6 @@
 return {
   "nickjvandyke/opencode.nvim",
+  version = "*",
   dependencies = {
     -- Recommended for `ask()` and `select()`.
     ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
@@ -11,6 +12,8 @@ return {
     local opencode_right_width = 0.45
     local did_first_opencode_focus_fix = false
     local first_focus_auid = nil
+
+    local snacks_terminal = require("snacks.terminal")
     ---@type snacks.terminal.Opts
     local snacks_terminal_opts = {
       start_insert = true,
@@ -22,8 +25,6 @@ return {
         border = "rounded",
         enter = true,
         on_win = function(win)
-          require("opencode.terminal").setup(win.win)
-
           -- First-open only: wait for the prompt to actually render, then snap focus.
           if not did_first_opencode_focus_fix and first_focus_auid == nil then
             first_focus_auid = vim.api.nvim_create_autocmd("TermRequest", {
@@ -51,7 +52,7 @@ return {
           end
 
           vim.keymap.set({ "t", "n" }, "<C-c>", function()
-            require("opencode").toggle()
+            snacks_terminal.toggle(opencode_cmd, snacks_terminal_opts)
           end, { buffer = win.buf, desc = "Hide opencode window" })
           vim.keymap.set({ "n", "t" }, "<C-u>", function()
             require("opencode").command("session.half.page.up")
@@ -64,14 +65,14 @@ return {
     }
 
     local function get_opencode_terminal()
-      local terminals = require("snacks.terminal").list()
+      local terminals = snacks_terminal.list()
       for _, terminal in ipairs(terminals) do
         local meta = terminal.buf and vim.b[terminal.buf] and vim.b[terminal.buf].snacks_terminal
         if meta and meta.cmd == opencode_cmd then
           return terminal
         end
       end
-      return require("snacks.terminal").get(opencode_cmd, { create = false })
+      return snacks_terminal.get(opencode_cmd, { create = false })
     end
 
     local function set_opencode_layout(terminal, position)
@@ -109,17 +110,21 @@ return {
       end
     end
 
+    local function toggle_opencode()
+      snacks_terminal.toggle(opencode_cmd, snacks_terminal_opts)
+    end
+
     ---@type opencode.Opts
     vim.g.opencode_opts = {
       server = {
         start = function()
-          require("snacks.terminal").open(opencode_cmd, snacks_terminal_opts)
+          snacks_terminal.open(opencode_cmd, snacks_terminal_opts)
         end,
         stop = function()
-          require("snacks.terminal").get(opencode_cmd, snacks_terminal_opts):close()
-        end,
-        toggle = function()
-          require("snacks.terminal").toggle(opencode_cmd, snacks_terminal_opts)
+          local terminal = snacks_terminal.get(opencode_cmd, { create = false })
+          if terminal then
+            terminal:close()
+          end
         end,
       },
     }
@@ -129,13 +134,13 @@ return {
 
     -- Recommended/example keymaps.
     vim.keymap.set({ "n", "x" }, "<C-a>", function()
-      require("opencode").ask("@this: ", { submit = true })
+      require("opencode").ask("@this: ")
     end, { desc = "Ask opencode…" })
     vim.keymap.set({ "n", "x" }, "<C-x>", function()
       require("opencode").select()
     end, { desc = "Execute opencode action…" })
     vim.keymap.set({ "n", "t" }, "<Leader>jj", function()
-      require("opencode").toggle()
+      toggle_opencode()
     end, { desc = "Toggle opencode" })
     vim.keymap.set({ "n", "t" }, "<Leader>jk", function()
       toggle_opencode_layout()
