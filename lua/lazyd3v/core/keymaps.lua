@@ -143,3 +143,18 @@ keymap.set("n", "gt", telescope_or_lsp("lsp_type_definitions", vim.lsp.buf.type_
 keymap.set("n", "K", lsp_or_fallback(vim.lsp.buf.hover, nil, "hover information"), {
   desc = "Show symbol info",
 })
+
+local function toggle_git_status()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+
+    if vim.bo[buf].filetype == "fugitive" then
+      vim.api.nvim_win_close(win, true)
+      return
+    end
+  end
+
+  vim.cmd("Git")
+end
+
+keymap.set("n", "<leader>xj", toggle_git_status, { desc = "Git Toggle" })
