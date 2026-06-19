@@ -122,6 +122,15 @@ return {
         return
       end
 
+      if terminal.win and vim.api.nvim_win_is_valid(terminal.win) then
+        local current_win = vim.api.nvim_get_current_win()
+        if terminal.opts.position == "right" and current_win ~= terminal.win then
+          vim.api.nvim_set_current_win(terminal.win)
+          vim.cmd("startinsert")
+          return
+        end
+      end
+
       local next_position = terminal.opts.position == "right" and "float" or "right"
       set_opencode_layout(terminal, next_position)
 
