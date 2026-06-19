@@ -14,6 +14,16 @@ return {
     local first_focus_auid = nil
 
     local snacks_terminal = require("snacks.terminal")
+
+    local function is_opencode_docked_right(winid)
+      if not (winid and vim.api.nvim_win_is_valid(winid)) then
+        return false
+      end
+
+      local win_config = vim.api.nvim_win_get_config(winid)
+      return win_config.relative == "" and vim.w[winid].snacks_win and vim.w[winid].snacks_win.position == "right"
+    end
+
     ---@type snacks.terminal.Opts
     local snacks_terminal_opts = {
       start_insert = true,
@@ -60,6 +70,22 @@ return {
           vim.keymap.set({ "n", "t" }, "<C-d>", function()
             require("opencode").command("session.half.page.down")
           end, { buffer = win.buf, desc = "Scroll opencode down" })
+          vim.keymap.set("t", "<M-h>", function()
+            if not is_opencode_docked_right(win.win) then
+              return
+            end
+
+            vim.cmd("stopinsert")
+            vim.cmd("TmuxNavigateLeft")
+          end, { buffer = win.buf, desc = "Navigate left from docked opencode" })
+          vim.keymap.set("t", "<M-l>", function()
+            if not is_opencode_docked_right(win.win) then
+              return
+            end
+
+            vim.cmd("stopinsert")
+            vim.cmd("TmuxNavigateRight")
+          end, { buffer = win.buf, desc = "Navigate right from docked opencode" })
         end,
       },
     }
